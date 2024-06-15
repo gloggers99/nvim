@@ -621,7 +621,6 @@ vim.cmd.colorscheme "oxocarbon"
 -- cool stuff
 vim.keymap.set("n", "<leader>rr", "<cmd>Lspsaga rename<CR>")
 vim.keymap.set("n", "<leader><CR>", "<cmd>Lspsaga code_action<CR>")
-vim.keymap.set("n", "<leader>t", "<cmd>Twilight<CR>")
 vim.keymap.set("n", "<leader>z", "<cmd>ZenMode<CR>")
 
 -- telescope
@@ -636,4 +635,4 @@ vim.keymap.set("n", "<leader>of", "<cmd>NvimTreeToggle<CR>")
 vim.keymap.set("n", "<leader>op", "<cmd>ToggleTerm<CR>")
 
 -- build commands
-vim.keymap.set("n", "<leader>bc", "<cmd>!mkdir -p ./cmake-build-debug && cd ./cmake-build-debug && cmake ../ && make && cd ..<CR>")
+vim.keymap.set("n", "<leader>bc", "<cmd>!mkdir -p ./cmake-build-debug && cd ./cmake-build-debug && cmake ../ && make && cd .. && ./cmake-build-debug/$(basename $(pwd))<CR>")
