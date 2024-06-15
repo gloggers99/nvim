@@ -615,7 +615,6 @@ require("lazy").setup({
     }
 })
 
-
 vim.opt.background = "dark"
 vim.cmd.colorscheme "oxocarbon"
 
@@ -627,6 +626,10 @@ vim.keymap.set("n", "<leader>z", "<cmd>ZenMode<CR>")
 
 -- telescope
 vim.keymap.set("n", "<leader><leader>", "<cmd>Telescope find_files<CR>")
+
+-- window
+vim.keymap.set("n", "<C-s>", "<cmd>split<CR>")
+vim.keymap.set("n", "<C-v>", "<cmd>vsplit<CR>")
 
 -- programs
 vim.keymap.set("n", "<leader>of", "<cmd>NvimTreeToggle<CR>")
