@@ -15,13 +15,6 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 vim.g.mouse = "a"
 
-vim.opt.foldmethod = "expr"
-vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-
-vim.opt.foldlevel = 1
-vim.opt.foldlevelstart = 0
-vim.opt.foldnestmax = 1
-
 vim.opt.termguicolors = true
 vim.opt.signcolumn = "yes"
 vim.opt.cursorline = true
@@ -35,9 +28,36 @@ vim.opt.expandtab = true
 vim.opt.fillchars = { eob = " " }
 
 require("lazy").setup({
+    {
+        dir = "/home/lucas/src/build.nvim",
+        opts = {
+            scripts = {
+                test = "echo \"hello world\""
+            }
+        }
+    },
     { "nvim-telescope/telescope.nvim" },
     { "onsails/lspkind.nvim" },
     { "github/copilot.vim" },
+    {
+        "folke/lazydev.nvim",
+        ft = "lua",
+        opts = {
+            library = {
+                { path = "luvit-meta/library", words = {"vim%.uv"} }
+            }
+        }
+    },
+    {
+        "Bilal2453/luvit-meta", lazy = true
+    },
+    {
+        "hat0uma/csvview.nvim",
+        opts = {}
+    },
+    {
+        "sheerun/vim-polyglot"
+    },
     {
         "nvim-lualine/lualine.nvim",
         dependencies = {
@@ -45,10 +65,10 @@ require("lazy").setup({
         },
         opts = {}
     },
-    {
-        "nvim-zh/colorful-winsep.nvim",
-        opts = {}
-    },
+    --{
+    --    "nvim-zh/colorful-winsep.nvim",
+    --    opts = {}
+    --},
     {
         "vigoux/notifier.nvim",
         opts = {}
@@ -106,18 +126,6 @@ require("lazy").setup({
         opts = {}
     },
     {
-        "utilyre/barbecue.nvim",
-        name = "barbecue",
-        version = "*",
-        dependencies = {
-            "SmiteshP/nvim-navic",
-            "nvim-tree/nvim-web-devicons"
-        },
-        opts = {
-            theme = vim.g.colors_name
-        }
-    },
-    {
         "m4xshen/hardtime.nvim",
         dependencies = {
             "MunifTanjim/nui.nvim",
@@ -136,17 +144,6 @@ require("lazy").setup({
     },
     {
         "Pocco81/auto-save.nvim",
-        opts = {}
-    },
-    {
-        "romgrk/barbar.nvim",
-        dependencies = {
-            "lewis6991/gitsigns.nvim",
-            "nvim-tree/nvim-web-devicons"
-        },
-        init = function ()
-            vim.g.barbar_auto_setup = false
-        end,
         opts = {}
     },
     {
@@ -198,9 +195,15 @@ require("lazy").setup({
     { "hrsh7th/cmp-cmdline" },
     { 
         "hrsh7th/nvim-cmp" ,
+        opts = function(_, opts)
+            opts.sources = opts.sources or {}
+            table.insert(opts.sources, {
+                    name = "lazydev",
+                    group_index = 0,
+                })
+        end,
         config = function()
             local cmp = require("cmp")
-            require("lspconfig").lua_ls.setup {}
 
             cmp.setup({
                 snippet = {
@@ -372,8 +375,18 @@ require("lazy").setup({
     }
 })
 
+vim.cmd [[
+autocmd BufNewFile,BufRead *.vert setfiletype glsl
+autocmd BufNewFile,BufRead *.frag setfiletype glsl
+]]
+
+require("lspconfig").glslls.setup {
+    filetypes = { "glsl", "frag", "vert" },
+}
+
 vim.opt.background = "dark"
 vim.cmd.colorscheme "catppuccin-mocha"
+vim.o.laststatus = 3
 
 -- keybinds
 
@@ -397,3 +410,12 @@ vim.keymap.set("n", "<leader>op", "<cmd>ToggleTerm<CR>")
 -- build commands
 vim.keymap.set("n", "<leader>bc", "<cmd>!mkdir -p ./cmake-build-debug && cd ./cmake-build-debug && cmake ../ && make && cd .. && ./cmake-build-debug/$(basename $(pwd))<CR>")
 
+require("lspconfig").lua_ls.setup {
+    settings = {
+        Lua = {
+            diagnostics = {
+                globals = { "vim" }
+            }
+        }
+    }
+}
