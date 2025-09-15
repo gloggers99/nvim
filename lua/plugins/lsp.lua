@@ -39,6 +39,9 @@ return {
             lightbulb = {
                 enable = false
             },
+            symbol_in_winbar = {
+                enable = false
+            },
             ui = {
                 code_action = "!"
             }
