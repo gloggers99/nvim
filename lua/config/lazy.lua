@@ -22,5 +22,5 @@ require("lazy").setup({
 	{ import = "plugins" }
   },
   install = { colorscheme = { "kanagawa-dragon" } },
-  checker = { enabled = true },
+  checker = { enabled = true, notify = false },
 })
